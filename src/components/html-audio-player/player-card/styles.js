@@ -2,7 +2,14 @@ export default theme => ({
     player: {
         width: '90%',
     },
-    list: {
+    lists: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        gap: theme.typography.pxToRem(20)
+    },
+    lists__list: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

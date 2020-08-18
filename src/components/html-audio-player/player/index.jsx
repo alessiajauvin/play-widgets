@@ -1,47 +1,18 @@
-import React, { createRef, useEffect, forwardRef, useState } from 'react';
+import React, { createRef, useState } from 'react';
 import { withStyles } from '@material-ui/core';
 import styles from './styles';
+import PlayButton from '../play-button';
+import PauseButton from '../pause-button';
+import SeekBar from '../seek-bar';
+import MuteButton from '../mute-button';
+import UnmuteButton from '../unmute-button';
+import TimeDisplay from '../time-display';
 
-const PlayButton = forwardRef((_, ref) => {
-    const [currentAudio, setCurrentAudio] = useState(null);
-
-    useEffect(() => {
-        if (ref) {
-            setCurrentAudio(ref.current);
-        }
-    }, [ref]);
-
-    const playHandler = () => {
-        if (currentAudio) {
-            currentAudio.play();
-        }
-    };
-    return <button onClick={playHandler}>Play</button>;
-});
-
-const PauseButton = forwardRef((_, ref) => {
-    const [currentAudio, setCurrentAudio] = useState(null);
-
-    useEffect(() => {
-        if (ref) {
-            setCurrentAudio(ref.current);
-        }
-    }, [ref]);
-
-    const pauseHandler = () => {
-        if (currentAudio) {
-            currentAudio.pause();
-        }
-    };
-
-    return <button onClick={pauseHandler}>Pause</button>
-});
 
 export const Player = ({src, classes}) => {
     const audioPlayerRef = createRef();
     const [currentlyPlaying, setCurrentlyPlaying] = useState(false);
-    const [currentTime, setCurrentTime] = useState(0);
-    const [duration, setDuration] = useState(0);
+    const [muted, setMuted] = useState(false);
     
 
     return (
@@ -54,15 +25,18 @@ export const Player = ({src, classes}) => {
                 src={src}
                 onPlay={() => setCurrentlyPlaying(true)}
                 onPause={() => setCurrentlyPlaying(false)}
-                onDurationChange={event => setDuration(event.target.duration)}
-                onTimeUpdate={event => setCurrentTime(event.target.currentTime)}
+                onVolumeChange={event => setMuted(event.target.muted)}
             />
             <div className={classes.player__controls}>
-                <PlayButton ref={audioPlayerRef} />
-                <PauseButton ref={audioPlayerRef} />
+                {!currentlyPlaying
+                 ? <PlayButton ref={audioPlayerRef} className={classes['player__play-button']} />
+                 : <PauseButton ref={audioPlayerRef} className={classes['player__play-button']} />}
+                <SeekBar ref={audioPlayerRef} className={classes['player__seek-bar']} />
+                {!muted
+                 ? <MuteButton ref={audioPlayerRef} className={classes['player__mute-button']} />
+                 : <UnmuteButton ref={audioPlayerRef} className={classes['player__unmute-button']} />}
             </div>
-            <div className={classes.player__timestamp}>currentlyPlaying: {JSON.stringify(currentlyPlaying)}</div>
-            <div>Timestamp: {currentTime} / {duration}</div>
+            <TimeDisplay ref={audioPlayerRef} className={classes['player__time-display']} />
         </div>
 )};
 

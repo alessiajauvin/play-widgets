@@ -1,2 +1,9 @@
 export { default as HtmlAudioPlayerCard } from './player-card';
 export { default as HtmlAudioPlayer } from './player';
+export { default as HtmlAudioPlayerMediaButton } from './media-button';
+export { default as HtmlAudioPlayerPlayButton } from './play-button';
+export { default as HtmlAudioPlayerPauseButton } from './pause-button';
+export { default as HtmlAudioPlayerSeekBar } from './seek-bar';
+export { default as HtmlAudioPlayerMuteButton } from './mute-button';
+export { default as HtmlAudioPlayerUnmuteButton } from './unmute-button';
+export { default as HtmlAudioPlayerTimeDisplay } from './time-display';
